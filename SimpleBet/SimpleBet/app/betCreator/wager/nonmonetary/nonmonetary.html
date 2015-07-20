@@ -1,0 +1,57 @@
+<div class="container-fluid" id="nonmonetaryContainer">
+    <div id="secNavbar">
+        <div ng-click="setTab(0)" ng-class="{selected: isTabselected(0)}">
+            <h4>Our Dare</h4>
+            <div class="selectionBox center"></div>
+        </div>
+        <div ng-click="setTab(1)" ng-class="{selected: isTabselected(1)}">
+            <h4>Custom Dare</h4>
+            <div class="selectionBox center"></div>
+        </div>
+    </div>
+	<div ng-show="0 === currentTab">
+		<div class="listItem" ng-repeat="item in ourItems track by $index" ng-click="selectDare(item)" ng-class="{selectedItem: item === selectedDare}">
+            <img ng-src="{{item.imageUrl}}" class="center avata">
+            <div class="content">
+                <h3 class="title">{{item.title}}</h3>
+                <h4 class="description">{{item.description}}</h4>
+            </div>
+            <img src="assets/submit_button.png" class=" center actionImg">
+		</div>
+	</div>
+	<div ng-show="1 === currentTab" id="customBetContainer">
+		<div ng-show="'select' === currentState">
+			<div id="createNavbar" ng-click="setState('create')">
+				<div class="row">
+					<div class="col col-xs-4">
+						<img class="center" src="assets/icon_circlePlus.png">
+					</div>
+					<div class="col col-xs-8">
+						<h4>Create New Dare</h4>
+					</div>
+				</div>
+			</div>
+			<div ng-repeat="item in customItems track by $index" ng-class="{selectedItem: item === selectedDare}">
+				<div class="listItem">
+					<img src="./assets/x_button.png" class="center avata" ng-click="removeCustomDare($index)">
+					<div class="content" ng-click="selectDare(item)" >
+						<h3 class="title">{{item.title}}</h3>
+						<h4 class="description">{{item.description}}</h4>
+					</div>
+					<img src="assets/submit_button.png" class=" center actionImg" ng-click="selectDare(item)">
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="'create' === currentState">
+			<div ng-include="'app/components/customNavbar/customNavbar.html'" ng-click="setState('select')"></div>
+
+			<h3 class="inputTitle" id="name">Name: </h3>
+			<input type="text" ng-model="input.newDare.title">
+
+			<h3 class="inputTitle" id="description">Description: </h3>
+			<input type="text" ng-model="input.newDare.description">
+			<div><a class="btn btn-default" role="button" id="betButton" ng-click="addDare(input.newDare)">Create Dare</a></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+<div class="container-fluid" id="home" layout="column" layout-align="space-around center">
+    <div class="logo" layout="row" layout-align="center center">
+        <img src="assets/logo_big.png">
+    </div>
+	<h4 id="version">version 0.0.1</h4>
+	<h4 id="description">Making a wager with your mates? Why not make that a tangible call and get the ball rolling with Fluttr!</h4>
+	<div ng-show="user.id" class="betButton btn btn-default" ui-sref="root.create.question">I’d bet...</div>
+	<div ng-hide="user.id" ng-click="logIn()" class="btn btn-default facebookButton" >
+        Sign In With <img src="assets/logo_facebook.png" id="fbLogo">
+    </div>
+</div>

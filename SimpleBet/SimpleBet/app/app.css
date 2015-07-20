@@ -1,0 +1,118 @@
+/*This is the golbal default setting for the whole webapp*/
+
+/*COFIGURATIONS*/
+/*primary color:  #9999ff  */
+/*secondary color:  #57d1c2  */
+/*accent color:  #ff806f  */
+
+/*default white text: #FCFCFC*/
+/*default grey text: #C0C0C0*/
+/*default black text: #666673*/
+/*default cyan text: #57d1c2*/
+
+/*negative button color: #aba8bf*/
+/*background dark: #666673*/
+
+/*selection color: #ebebff 20% primary color*/
+/*disable color: #ACA9BF*/
+
+.container-fluid {
+	padding: 0px;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+html {
+	height: 100%;
+}
+
+#appView {
+	height: 100%;
+}
+
+body {
+	color: #666673;
+    background-color: #FCFCFC;
+	font-family: 'PT Sans', sans-serif;
+    height: 100%;
+}
+
+body > [ui-view] {
+    height: 100%;
+}
+
+/*set img to be default horizontally center*/
+.img-responsive {
+	margin: 0 auto;
+}
+
+/*center both dimension*/
+/*to apply to a img: set 1 size auto, and the other is a fix or relative size*/
+/*NOTE: in case of completely lost, plz learn this fundermental stuffs again:
+http://www.smashingmagazine.com/2013/08/09/absolute-horizontal-vertical-centering-css/2/#Height*/
+.center {
+	position: absolute;
+	margin: auto;
+	top:0;bottom:0;left:0;right:0;
+	overflow: auto;
+}
+/*this center class is for the item with not-fixed size*/
+.center-various {
+	position: absolute;
+	top: 50%; left: 50%;
+	transform: translate(-50%, -50%);
+	margin: auto;
+	white-space: nowrap;
+}
+
+.shadow {
+	box-shadow: 0px 0px 7px 0px;
+}
+
+.globalLoader {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 1500;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#loading-bar .bar {
+  background: #ff806f;
+}
+
+#loading-bar .peg {
+  box-shadow: 0 0 10px #ff806f, 0 0 5px #ff806f;
+}
+
+.md-button.md-raised:not([disabled]) {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+
+    background-color: #aba8bf;
+    color: #FCFCFC;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: none;
+}
+
+.md-button.md-raised:not([disabled]).md-focused {
+    background-color: #9999ff;
+}
+
+.md-button {
+    background-color: #aba8bf;
+    color: #FCFCFC;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: none;
+}
+
+.md-button:not([disabled]):hover {
+    background-color: #aba8bf;
+}
+
+.md-button:not([disabled]).md-focused {
+    background-color: #9999ff;
+}

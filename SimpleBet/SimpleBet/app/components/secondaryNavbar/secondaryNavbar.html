@@ -1,0 +1,11 @@
+<div class="tableContainer shadow">
+	<ul class="tableRow">
+		<li class="tableCell" ng-repeat="tab in tabs" ng-class="{selected: isTabselected($index)}" ng-click="setTab($index)">
+			<span>
+				<img src="{{tab.image}}" ng-hide="tab.image === ''" />
+				<h4>{{tab.title}}</h4>
+			</span>
+			<div class="selectionBox center"></div>
+		</li>
+	</ul>
+</div>

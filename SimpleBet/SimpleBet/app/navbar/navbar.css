@@ -1,0 +1,25 @@
+#appNavbar {
+	position: fixed;
+	top: 0px;
+    left: 0px;
+	height: 50px;
+	width: 100%;
+	background-color: #9999ff;
+	z-index: 1000;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#appNavbar h3 {
+	color: #FCFCFC;
+	font-weight: bold;
+	font-size: 20px;
+	margin: auto;
+	text-align: center;
+}
+
+#appNavbar img {
+	height: 40%;
+	width: auto;
+	margin-left: 20px;
+}

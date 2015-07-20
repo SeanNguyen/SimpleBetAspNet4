@@ -1,0 +1,159 @@
+/*OPTIONS*/
+#optionView {
+    padding-bottom: 60px;
+}
+
+#optionView .question{
+    background-color: #bad7ec;
+    min-height: 135px;
+}
+
+#optionView h3, h4, h5 {
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+#optionView .question h4 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #FCFCFC;
+    font-size: 14px;
+}
+
+#optionView .question textarea {
+    margin: 0;
+    font-size: 20px;
+    resize: none;
+    height: 100px;
+    width: 100%;
+    padding-top: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    border: none;
+    background-color: #bad7ec;
+}
+
+#optionView .question textarea:focus {
+    outline: none;
+}
+
+#optionView #description {
+    background-color: #666673;
+}
+
+#optionView #description h4 {
+    color: #ff806f;
+    font-size: 16px;
+    margin: 15px 0px;
+    text-align: center;
+}
+
+#optionView #description h5 {
+    color: #FCFCFC;
+    font-size: 12pt;
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+#optionView .option {
+    position: relative;
+    height: 60px;
+    background-color: #FCFCFC;
+    border-bottom-width: 2px;
+    border-bottom-color: #9999ff;
+    border-bottom-style: solid;
+}
+
+#optionView .option h4 {
+    font-size: 18px;
+    text-align: left;
+    max-width: 70%;
+    max-height: 2em;
+    overflow: visible;
+    display: table;
+}
+
+#optionView .option .radio_button {
+    height: 16px;
+    width: auto;
+    margin: 10px;
+}
+
+#optionView .option .x_button {
+    height: 12px;
+    width: auto;
+    margin: 10px;
+}
+
+#optionView .option input {
+    font-size: 18px;
+    width: 90%;
+    height: 36px;
+    border: none;
+    background: none;
+}
+
+#optionView .option input:focus {
+    outline: none;
+}
+
+#optionView .option .submit_button {
+    width: 15px;
+    height: auto;
+    left: auto; right:7%;
+}
+
+#optionView #addOption .add_button {
+    width: 20px;
+    height: auto;
+    left: 5%; right: auto;
+}
+
+#optionView #addOption h4 {
+    color: #9999ff;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#optionView #addOption {
+    position: relative;
+    height: 36px;
+    width: 100%;
+    height: 60px;
+    background-color: #FCFCFC;
+    border-width: 0;
+
+    background-color: #FCFCFC;
+    border-bottom-width: 2px;
+    border-bottom-color: #9999ff;
+    border-bottom-style: solid;
+}
+
+#optionView #nextButton {
+    background-color: #ff806f;
+    color: #FCFCFC;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 0px;
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+#optionView .buttonContainer {
+    background-color: #666673;
+    position: absolute;
+    top: auto; bottom: 0;
+    left: 0; right: 0;
+    height: 60px;
+}
+
+#optionView .selected {
+    background-color: #ff806f;
+    color: #FCFCFC;
+}
+
+#optionView #beforePageEnd {
+    height: 60px;
+}

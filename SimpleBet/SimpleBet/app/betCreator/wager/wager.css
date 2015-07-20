@@ -1,0 +1,58 @@
+/*Wager type view*/
+#wagerTypeView {
+    background-color: #FCFCFC;
+    height: 100%;
+    min-height: 480px;
+    overflow-x: hidden;
+}
+
+#wagerTypeView #title {
+    color: #9999ff;
+    font-size: 16px;
+    text-align: center;
+    margin: 17px 0;
+}
+
+#wagerTypeView #loot h4 {
+    text-align: center;
+    font-weight: bold;
+}
+
+#wagerTypeView  #loot h5 {
+    text-align: center;
+    color: #FCFCFC;
+    margin-bottom: 0;
+}
+
+#wagerTypeView #dare h4 {
+    text-align: center;
+    font-weight: bold;
+}
+
+#wagerTypeView  #dare h5 {
+    text-align: center;
+    color: #FCFCFC;
+    margin-bottom: 0;
+}
+
+#wagerTypeView #loot {
+    padding-top: 20px;
+    background-color: #57d1c2;
+    height: calc(50% - 25px);
+}
+
+#wagerTypeView #dare {
+    padding-top: 20px;
+    background-color: #ff806f;
+    height: calc(50% - 25px);
+}
+
+#wagerTypeView #loot img {
+    height: 40%;
+    width: auto;
+}
+
+#wagerTypeView #dare img {
+    height: 40%;
+    width: auto;
+}

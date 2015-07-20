@@ -1,0 +1,9 @@
+﻿<div class="globalLoader" ng-show="!loaded">
+    <div ng-include="'app/components/loader/loader.html'"></div>
+</div>
+
+<div ng-show="isNavbarVisible()" ng-include="'app/navbar/navbar.html'"></div>
+
+<div class="container root">
+    <div ui-view></div>
+</div>

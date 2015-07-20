@@ -1,0 +1,166 @@
+<div class="container viewBet">
+    <div ui-view>
+
+        <md-whiteframe class="md-whiteframe-z1 header" ng-show="bet.state === BET_STATE.FINALLIZED" layout="row" layout-align="center center"
+                       ng-class="{win: isLocalUserWin() && !isBetDraw(), lose: !isLocalUserWin() && !isBetDraw(), draw: isBetDraw()}">
+            <div ng-show="isLocalUserWin() && !isBetDraw()">YOU WIN!</div>
+            <div ng-show="!isLocalUserWin() && !isBetDraw()">YOU LOSE!</div>
+            <div ng-show="isBetDraw()">DRAW!</div>
+        </md-whiteframe>
+
+        <div class="question" layout="column" layout-align="space-around center" ng-show="isUserPending(user.id)">
+            <h1 ng-bind="bet.question">?</h1>
+            <h5 ng-bind="creator.name">?</h5>
+        </div>
+
+        <div class="expireTime" layout="row" layout-align="center center" ng-show="bet.state < BET_STATE.FINALLIZED">
+            <img src="assets/icon_sandClock.png">
+            <label ng-show="bet.state < BET_STATE.VERIFYING">Expires in: </label>
+            <label class="highlight" ng-show="bet.state < BET_STATE.VERIFYING">{{Math.floor(expireDuration / 60 / 24)}} d</label>
+            <label class="highlight" ng-show="bet.state < BET_STATE.VERIFYING">{{Math.floor(expireDuration / 60) % 24}} hrs</label>
+            <label class="highlight" ng-show="bet.state < BET_STATE.VERIFYING">{{expireDuration % 60}} mins</label>
+
+            <label class="highlight" ng-show="bet.state === BET_STATE.VERIFYING">Bet Closed</label>
+        </div>
+
+        <div class="options" ng-show="isUserPending(user.id) && bet.betType === 1">
+            <h5>Pick an Answer:</h5>
+            <md-radio-group ng-model="input.option">
+                <md-whiteframe class="md-whiteframe-z2 option" layout="row" layout-align="left center"
+                               ng-repeat="option in input.options">
+                    <md-radio-button ng-value="option.content" ng-click="onOptionClick(option)"
+                                     ng-disabled="!isUserPending(user.id)">
+                        {{option.content}}
+                    </md-radio-button>
+                </md-whiteframe>
+            </md-radio-group>
+        </div>
+
+        <div class="meVsTheWorldInfo" ng-show="isUserPending(user.id) && bet.betType === 0" layout="column" layout-align="center center">
+            <h5>You should only participate in this if you think you can win against the creator!</h5>
+            <h5>Press 'Accept' if you are betting against the bet or press 'Decline' if you decide not to take part.</h5>
+            <md-button class="md-raised" ng-click="onOptionClick(bet.options[1])">Accept Bet</md-button>
+        </div>
+
+        <div class="revoteSection" ng-show="bet.state === BET_STATE.ANSWERABLE && wasBetDisagreed()">
+            <div class="header" layout="row" layout-align="center center">
+                <h4><strong>VOTE THE RIGHT ANSWER</strong></h4>
+            </div>
+
+            <md-whiteframe class="md-whiteframe-z2 option" layout layout-align="center center"
+                           ng-repeat="option in input.options" ng-click="onVoteOptionClicked(option)"
+                           ng-class="{selected: option === input.voteOption}">
+                <div flex="60" class="content">{{option.content}}</div>
+                <div flex="40" class="userList" layout="row" layout-align="end center" layout-wrap>
+                    <div class="user" ng-repeat="participation in getParticipationsByVoteOption(option.content)">
+                        {{participation.user.name.substring(0,1)}}
+                    </div>
+                </div>
+            </md-whiteframe>
+            <!-- Last option is Draw -->
+            <md-whiteframe class="md-whiteframe-z2 option" layout layout-align="center center">
+                <div flex="60" class="content">Draw</div>
+                <div flex="40" class="userList" layout="row" layout-align="end center" layout-wrap>
+                    <div class="user" ng-repeat="participation in getParticipationsByVoteDraw()">
+                        {{participation.user.name.substring(0,1)}}
+                    </div>
+                </div>
+            </md-whiteframe>
+        </div>
+
+        <div class="otherUserOptions" ng-show="!isUserPending(user.id)">
+            <div class="header" ng-show="bet.state === BET_STATE.PENDING">
+                <h4><strong>GAME ON</strong></h4>
+                <h6>The bets of the other participants are shown below</h6>
+            </div>
+
+            <div class="header" ng-show="bet.state === BET_STATE.ANSWERABLE">
+                <h4><strong>FINALIZE THE BET</strong></h4>
+                <h6>No one wins</h6>
+            </div>
+
+            <div class="header drawHeader" ng-show="bet.state === BET_STATE.VERIFYING && !bet.winningOption">
+                <h4><strong>DRAW</strong></h4>
+                <h6>The bets of the other participants are shown below</h6>
+            </div>
+
+            <div class="header" ng-show="bet.state === BET_STATE.VERIFYING && bet.winningOption">
+                <h4><strong>RESULT</strong></h4>
+                <h6>Waiting for the correct answer to be chosen...</h6>
+            </div>
+
+            <md-whiteframe class="md-whiteframe-z2 option" layout layout-align="center center"
+                           ng-repeat="option in input.options" ng-click="onAnswerClick(option)"
+                           ng-class="{selected: option === input.answer}">
+                <div flex="60" class="content">{{option.content}}</div>
+                <div flex="40" class="userList" layout="row" layout-align="end center" layout-wrap>
+                    <div ng-repeat="participation in getParticipantByOption(option)" class="user">
+                        {{participation.user.name.substring(0,1)}}
+                    </div>
+                </div>
+            </md-whiteframe>
+        </div>
+
+        <div class="betWager">
+            <h4 class="title">Bet Wager</h4>
+            <div layout="row" class="wagerItem" layout-align="center center">
+                <div layout="column" flex="20">
+                    <img ng-src="{{bet.winningItem.imageUrl}}" />
+                </div>
+                <div class="wagerInfo" flex>
+                    <label ng-bind="bet.winningItem.title">?</label>
+                    <p ng-bind="bet.winningItem.description">?</p>
+                </div>
+                <h4 class="wagerCost" ng-show="bet.winningItem.type === 1">${{bet.winningItem.price}}</h4>
+            </div>
+        </div>
+
+        <div class="shareButton" layout="row" layout-align="center center" ng-show="bet.state === BET_STATE.FINALLIZED">
+            <md-button class="md-raised" ng-click="share()"><img src="./assets/logo_facebook.png" />Share</md-button>
+        </div>
+
+        <div class="betParticipants">
+            <h4 class="title">Invited Participants</h4>
+            <div layout="row" layout-wrap>
+                <div flex="33" ng-repeat="participation in bet.participations" layout="column"
+                     class="participantView" ng-class="{deleted: participation.state === 3}" layout-align="center center">
+                    <img ng-src="{{participation.user.avatarUrl}}" />
+                    <label ng-bind="participation.user.name">?</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="declineButton" ng-show="getControlButtonState() === 2">
+            <md-button class="md-raised btn-normal" ng-click="decline()">Decline Bet</md-button>
+        </div>
+
+        <h5 ng-show="!isUserPending(user.id) && bet.state === BET_STATE.PENDING" class="waitingFooterMessage">
+            Kindly wait for all invited participants to respond or the timer to expire before the bet can start.
+        </h5>
+
+        <!-- Choose Answer Buttons -->
+        <div class="answerButton" layout="row" layout-align="space-around center" 
+             ng-show="bet.state === BET_STATE.ANSWERABLE && isLoggedIn() && !wasBetDisagreed() && isLocalUserActive()">
+            <md-button class="md-raised" ng-click="onDrawOptionClick()">Make it a Draw</md-button>
+            <md-button class="md-raised" ng-disabled="!input.answer" ng-click="submitAnswer()">Select Answer</md-button>
+        </div>
+
+        <!-- Vote Answer Button -->
+        <div class="answerButton" layout="row" layout-align="space-around center"
+             ng-show="bet.state === BET_STATE.ANSWERABLE && isLoggedIn() && wasBetDisagreed() && !haveLocalUserVotedFinalAnswer() && isLocalUserActive()">
+            <md-button class="md-raised" ng-click="onVoteButtonClicked()">Vote Draw</md-button>
+            <md-button class="md-raised" ng-disabled="!input.voteOption" ng-click="onVoteButtonClicked(input.voteOption)">Vote Answer</md-button>
+        </div>
+
+        <!-- Disagree/Agree Buttons -->
+        <div class="agreeButtons" layout="row" layout-align="space-around center"
+             ng-show="bet.state === BET_STATE.VERIFYING && isLocalUserActive() && !isLocalUserAgreed()">
+            <md-button class="md-raised" ng-click="onDisagreeButtonClick()">Disagree</md-button>
+            <md-button class="md-raised" ng-click="onAgreeButtonClick()">Agree</md-button>
+        </div>
+
+        <h5 ng-show="bet.state === BET_STATE.VERIFYING && isLocalUserAgreed()" class="waitingFooterMessage">
+            Kindly contact our admin for further assistance if you have any problems regarding this bet.
+        </h5>
+    </div>
+</div>

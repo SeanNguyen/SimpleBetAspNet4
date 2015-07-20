@@ -1,0 +1,8 @@
+﻿.root {
+    padding: 0;
+    height: 100%;
+}
+
+.root > [ui-view] {
+    height: 100%;
+}
