@@ -29,34 +29,36 @@ namespace SimpleBet.Controllers
         //    return JsonConvert.SerializeObject(this.dataService.GetUsers());
         //}
 
-        // GET api/values/5
-        [Route("api/user/{id:int}")]
-        [HttpGet]
-        public HttpResponseMessage Get(HttpRequestMessage request, int id)
-        {
-            User user = this.dataService.GetUserById(id);
-            if (user == null)
-            {
-                return request.CreateResponse(HttpStatusCode.NotFound);
-            }
-            else
-            {
-                return request.CreateResponse<User>(HttpStatusCode.OK, user);
-            }
-        }
-
-        //this will be hitted when querry by facebookID
         [Route("api/user/{id:long}")]
         [HttpGet]
         public HttpResponseMessage Get(HttpRequestMessage request, long id)
         {
-            User user = this.dataService.GetUserByFacebookId(id);
-            if (user == null)
+            //this is facebook id
+            if (id > int.MaxValue)
             {
-                return request.CreateResponse(HttpStatusCode.NotFound);
-            } else
+
+                User user = this.dataService.GetUserByFacebookId(id);
+                if (user == null)
+                {
+                    return request.CreateResponse(HttpStatusCode.NotFound);
+                }
+                else
+                {
+                    return request.CreateResponse<User>(HttpStatusCode.OK, user);
+                }
+            }
+            else
             {
-                return request.CreateResponse<User>(HttpStatusCode.OK, user);
+                int userId = (int) id;
+                User user = this.dataService.GetUserById(userId);
+                if (user == null)
+                {
+                    return request.CreateResponse(HttpStatusCode.NotFound);
+                }
+                else
+                {
+                    return request.CreateResponse<User>(HttpStatusCode.OK, user);
+                }
             }
         }
 
