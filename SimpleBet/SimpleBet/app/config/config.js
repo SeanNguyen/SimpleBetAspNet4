@@ -7,7 +7,7 @@
     function Config($location) {
 
         var facebook = {};
-        if ($location.host() === 'localhost' && $location.port() === 1174) {
+        if ($location.host() === 'localhost' && $location.port() === 14248) {
             facebook.appId = '1480828435544588';
         } else if ($location.host() === '192.168.0.113' && $location.port() === 9000) {
             facebook.appId = '1486054991688599';

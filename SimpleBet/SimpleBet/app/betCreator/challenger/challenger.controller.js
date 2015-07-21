@@ -1,11 +1,11 @@
 'use-strict';
 var app = angular.module('app');
 
-app.controller('challengerController', ['$rootScope', '$scope', 'ngDialog', challengerController]);
+app.controller('challengerController', ['$rootScope', '$scope', 'ngDialog', '$anchorScroll', '$location', 'focus', challengerController]);
 
 var visibleRange_min = 20;
 
-function challengerController($rootScope, $scope, ngDialog) {
+function challengerController($rootScope, $scope, ngDialog, $anchorScroll, $location, focus) {
 
     $scope.currentTab = 0;
     $scope.friends = [];
@@ -37,6 +37,12 @@ function challengerController($rootScope, $scope, ngDialog) {
 	        }
 	        resetSearchField();
 	        $scope.input.participants.push(friend);
+
+	        var focusId = 'friendQueryInput';
+	        focus(focusId);
+	        //scroll to bottom
+	        $location.hash('choosenFriendEnd');
+	        $anchorScroll();
 	    } else {
 	        var friendIndex = getChoosenFriendIndexById(friend.tagId);
 	        $scope.input.participants.splice(friendIndex, 1);
