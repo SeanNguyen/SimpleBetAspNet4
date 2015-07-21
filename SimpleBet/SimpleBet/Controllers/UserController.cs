@@ -6,6 +6,8 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -30,43 +32,40 @@ namespace SimpleBet.Controllers
         // GET api/values/5
         [Route("api/user/{id:int}")]
         [HttpGet]
-        public IHttpActionResult Get(int id)
+        public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
             User user = this.dataService.GetUserById(id);
             if (user == null)
             {
-                return NotFound();
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
             else
             {
-                string userJson = JsonConvert.SerializeObject(user);
-                return Ok(userJson);
+                return request.CreateResponse<User>(HttpStatusCode.OK, user);
             }
         }
 
         //this will be hitted when querry by facebookID
         [Route("api/user/{id:long}")]
         [HttpGet]
-        public IHttpActionResult Get(long id)
+        public HttpResponseMessage Get(HttpRequestMessage request, long id)
         {
             User user = this.dataService.GetUserByFacebookId(id);
             if (user == null)
             {
-                return NotFound();
+                return request.CreateResponse(HttpStatusCode.NotFound);
             } else
             {
-                string userJson = JsonConvert.SerializeObject(user);
-                return Ok(userJson);
+                return request.CreateResponse<User>(HttpStatusCode.OK, user);
             }
         }
 
         // POST api/values
         [HttpPost]
-        public IHttpActionResult Post([FromBody]User user)
+        public HttpResponseMessage Post(HttpRequestMessage request, [FromBody]User user)
         {
             user = this.dataService.AddUser(user);
-            string json = JsonConvert.SerializeObject(user);
-            return Ok(json);
+            return request.CreateResponse<User>(HttpStatusCode.OK, user);
         }
 
         // PUT api/values/5

@@ -6,12 +6,13 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace SimpleBet.Controllers
 {
-    [Route("api/[controller]")]
     public class BetUserController : ApiController
     {
         //Attributes
@@ -57,15 +58,15 @@ namespace SimpleBet.Controllers
         // PUT api/values/5
         [Route("api/[controller]/{betId}/{userId}")]
         [HttpPut]
-        public IHttpActionResult Put(int betId, int userId, [FromBody]BetUser betUser)
+        public HttpResponseMessage Put(HttpRequestMessage request, int betId, int userId, [FromBody]BetUser betUser)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
             }
             if (betId != betUser.BetId || userId != betUser.UserId)
             {
-                return BadRequest();
+                return request.CreateResponse(HttpStatusCode.BadRequest);
             }
             
             try
@@ -76,7 +77,7 @@ namespace SimpleBet.Controllers
             {
                 if (this.dataService.GetBetUser(betId, userId) == null)
                 {
-                    return NotFound();
+                    return request.CreateResponse(HttpStatusCode.NotFound);
                 }
                 else
                 {
@@ -85,22 +86,21 @@ namespace SimpleBet.Controllers
             }
 
             //seriallize the object
-            string json = JsonConvert.SerializeObject(betUser);
-            return Ok(json);
+            return request.CreateResponse<BetUser>(HttpStatusCode.OK, betUser);
         }
 
         // DELETE api/values/5
         [Route("api/[controller]/{betId}/{userId}")]
         [HttpDelete]
-        public IHttpActionResult Delete(int userId, int betId)
+        public HttpResponseMessage Delete(HttpRequestMessage request, int userId, int betId)
         {
             BetUser betUser = this.dataService.RemoveBetUser(betId, userId);
             if (betUser == null)
             {
-                return NotFound();
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
             string json = JsonConvert.SerializeObject(betUser);
-            return Ok(json);
+            return request.CreateResponse<BetUser>(HttpStatusCode.OK, betUser);
         }
     }
 }

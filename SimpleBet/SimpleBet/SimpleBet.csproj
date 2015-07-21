@@ -130,7 +130,6 @@
     <Compile Include="Controllers\BetUserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WinningItemController.cs" />
     <Compile Include="Data\Initializer.cs" />
     <Compile Include="Data\SimpleBetContext.cs" />

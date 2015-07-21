@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace SimpleBet.Controllers
 {
-    [Route("api/[controller]")]
     public class WinningItemController : ApiController
     {
         //Attributes
@@ -23,7 +24,7 @@ namespace SimpleBet.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IHttpActionResult Query([FromUri] int creatorId, [FromUri] WINNING_ITEM_TYPE type, [FromUri] WINNING_ITEM_CATEGORY category)
+        public HttpResponseMessage Query(HttpRequestMessage request, [FromUri] int creatorId, [FromUri] WINNING_ITEM_TYPE type, [FromUri] WINNING_ITEM_CATEGORY category)
         {
             IList<WinningItem> winningItems;
             
@@ -46,49 +47,47 @@ namespace SimpleBet.Controllers
             {
                 winningItems = dataService.GetWinningItems();
             }
-            string json = JsonConvert.SerializeObject(winningItems);
-            return Ok(json);
+            return request.CreateResponse<WinningItem[]>(HttpStatusCode.NotFound, winningItems.ToArray());
         }
 
         // GET api/values/5
         [HttpGet]
-        public IHttpActionResult Get(int id)
+        public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
             WinningItem winningItem = dataService.GetWinningItem(id);
 
             if (winningItem == null)
             {
-                return NotFound();
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
-            string json = JsonConvert.SerializeObject(winningItem);
-            return Ok(json);
+            return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
         }
 
         // POST api/values
         [HttpPost]
-        public IHttpActionResult Post([FromBody]WinningItem winningItem)
+        public HttpResponseMessage Post(HttpRequestMessage request, [FromBody]WinningItem winningItem)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
             dataService.AddWinningItem(winningItem);
             string json = JsonConvert.SerializeObject(winningItem);
-            return Ok(json);
+            return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
         }
 
         // PUT api/values/5
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody]WinningItem winningItem)
+        public HttpResponseMessage Put(HttpRequestMessage request, int id, [FromBody]WinningItem winningItem)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
             }
             if (id != winningItem.Id)
             {
-                return BadRequest();
+                return request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
             try
@@ -99,7 +98,7 @@ namespace SimpleBet.Controllers
             {
                 if (dataService.GetWinningItem(id) != null)
                 {
-                    return NotFound();
+                    return request.CreateResponse(HttpStatusCode.NotFound);
                 }
                 else
                 {
@@ -107,22 +106,22 @@ namespace SimpleBet.Controllers
                 }
             }
             string json = JsonConvert.SerializeObject(winningItem);
-            return Ok(json);
+            return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
         }
 
         // DELETE api/values/5
         [HttpDelete]
-        public IHttpActionResult Delete(int id)
+        public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             try
             {
                 WinningItem winningItem = this.dataService.RemoveWinningItem(id);
                 string json = JsonConvert.SerializeObject(winningItem);
-                return Ok(json);
+                return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
             }
             catch
             {
-                return NotFound();
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
     }
