@@ -16,9 +16,9 @@ namespace SimpleBet.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            return Ok("abc");
         }
 
         // POST api/values
