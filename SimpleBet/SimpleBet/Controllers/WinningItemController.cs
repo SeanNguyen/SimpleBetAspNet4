@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace SimpleBet.Controllers
@@ -24,8 +25,31 @@ namespace SimpleBet.Controllers
 
         // GET: api/values
         [HttpGet]
-        public HttpResponseMessage Query(HttpRequestMessage request, [FromUri] int creatorId, [FromUri] WINNING_ITEM_TYPE type, [FromUri] WINNING_ITEM_CATEGORY category)
+        public HttpResponseMessage Query(HttpRequestMessage request)
         {
+            int typeInt = 0;
+            string typeString = HttpContext.Current.Request.QueryString["type"];
+            if (string.IsNullOrEmpty(typeString) || !int.TryParse(typeString, out typeInt))
+            {
+                typeInt = 0;
+            }
+            WINNING_ITEM_TYPE type = (WINNING_ITEM_TYPE) typeInt;
+
+            int creatorId = 0;
+            string creatorIdString = HttpContext.Current.Request.QueryString["creatorId"];
+            if (string.IsNullOrEmpty(creatorIdString) || !int.TryParse(creatorIdString, out creatorId))
+            {
+                creatorId = 0;
+            }
+
+            int categoryInt = 0;
+            string categoryString = HttpContext.Current.Request.QueryString["category"];
+            if (string.IsNullOrEmpty(categoryString) || !int.TryParse(categoryString, out categoryInt))
+            {
+                categoryInt = 0;
+            }
+            WINNING_ITEM_CATEGORY category = (WINNING_ITEM_CATEGORY) categoryInt;
+
             IList<WinningItem> winningItems;
             
             if(type == WINNING_ITEM_TYPE.MONETARY)
@@ -47,7 +71,7 @@ namespace SimpleBet.Controllers
             {
                 winningItems = dataService.GetWinningItems();
             }
-            return request.CreateResponse<WinningItem[]>(HttpStatusCode.NotFound, winningItems.ToArray());
+            return request.CreateResponse<WinningItem[]>(HttpStatusCode.OK, winningItems.ToArray());
         }
 
         // GET api/values/5
@@ -60,7 +84,7 @@ namespace SimpleBet.Controllers
             {
                 return request.CreateResponse(HttpStatusCode.NotFound);
             }
-            return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
+            return request.CreateResponse<WinningItem>(HttpStatusCode.OK, winningItem);
         }
 
         // POST api/values
@@ -74,7 +98,7 @@ namespace SimpleBet.Controllers
 
             dataService.AddWinningItem(winningItem);
             string json = JsonConvert.SerializeObject(winningItem);
-            return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
+            return request.CreateResponse<WinningItem>(HttpStatusCode.OK, winningItem);
         }
 
         // PUT api/values/5
@@ -106,7 +130,7 @@ namespace SimpleBet.Controllers
                 }
             }
             string json = JsonConvert.SerializeObject(winningItem);
-            return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
+            return request.CreateResponse<WinningItem>(HttpStatusCode.OK, winningItem);
         }
 
         // DELETE api/values/5
@@ -117,7 +141,7 @@ namespace SimpleBet.Controllers
             {
                 WinningItem winningItem = this.dataService.RemoveWinningItem(id);
                 string json = JsonConvert.SerializeObject(winningItem);
-                return request.CreateResponse<WinningItem>(HttpStatusCode.NotFound, winningItem);
+                return request.CreateResponse<WinningItem>(HttpStatusCode.OK, winningItem);
             }
             catch
             {

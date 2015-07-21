@@ -164,6 +164,18 @@
     color: #ff806f;
 }
 
+#challenger .searchBox input::-webkit-input-placeholder {
+    color: #ebebff;
+}
+
+#challenger .searchBox input::-moz-placeholder {
+    color: #ebebff;
+}
+
+#challenger .searchBox input:-ms-input-placeholder {
+    color: #ebebff;
+}
+
 #challenger .searchBox input::placeholder {
     color: #ebebff;
 }

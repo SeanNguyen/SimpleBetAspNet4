@@ -1,10 +1,18 @@
 #home {
 	background-image: url('../../assets/home_background.png'); 
 	background-size: cover;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-justify-content: space-around;
+        -ms-flex-pack: distribute;
+            justify-content: space-around;
     min-height: 100%;
 }
 
@@ -19,7 +27,9 @@
 }
 
 #home #version {
-    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+            flex-shrink: 0;
 	font-size: 0.8em;
 	color: #FCFCFC;
 	text-align: center;
@@ -30,7 +40,9 @@
 }
 
 #home #description {
-    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+            flex-shrink: 0;
 	max-width: 70%;
 	font-size: 1em;
 	color: #FCFCFC;
@@ -39,7 +51,9 @@
 
 #home .betButton {
     margin: 10px auto;
-    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+            flex-shrink: 0;
 	width: 80%;
 	font-size: 1.5em;
 	font-weight: bold;
@@ -53,7 +67,9 @@
 
 #home .facebookButton {
     margin: 10px auto;
-    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+            flex-shrink: 0;
 	width: 80%;
 	font-size: 1.2em;
 	color: #FCFCFC;

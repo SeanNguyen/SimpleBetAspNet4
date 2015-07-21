@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 
 		pathConfig: {
 			app: 'Client',
-			webRoot: 'wwwroot',
+			webRoot: 'app',
 			bower: 'bower_components'
 		},
 
@@ -111,7 +111,7 @@ module.exports = function (grunt) {
 		        ]
 		    },
 		    dist: {
-		        src: ['<%= pathConfig.webRoot%>/app/**/*.css', '<%= pathConfig.webRoot%>/app.css']
+		        src: ['<%= pathConfig.webRoot%>/**/*.css', '<%= pathConfig.webRoot%>/app.css']
 		    }
 		}
 	});
